@@ -106,12 +106,12 @@ void render(const std::vector<Sphere>& spheres) {
     }
 }
 
-int main() {
-    std::vector<Sphere> spheres = {
-        Sphere(Vec3(0, 0, -5), 1)
-    };
-
-    render(spheres);
-
-    return 0;
-}
+//int main() {
+//    std::vector<Sphere> spheres = {
+//        Sphere(Vec3(0, 0, -5), 1)
+//    };
+//
+//    render(spheres);
+//
+//    return 0;
+//}
