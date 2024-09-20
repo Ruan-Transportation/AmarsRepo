@@ -46,7 +46,7 @@ double static exampleFunction (double x)
 		return x * x;
 	}
 
-
+// Generate Random Numbers
 vector<double> generateRandomNumbers(int n, int lowerBound, int upperBound) {
 	vector<double> randomNumbers;
 	random_device rd;
@@ -60,6 +60,7 @@ vector<double> generateRandomNumbers(int n, int lowerBound, int upperBound) {
 	return randomNumbers;
 }
 
+// Monte Carlo Integration using process described above
 double MonteCarloIntegrator(function<double(double)> func, double lowerBound, double upperBound, int n) {
 
 	vector<double> randPoints = generateRandomNumbers(n, lowerBound, upperBound);
@@ -71,6 +72,9 @@ double MonteCarloIntegrator(function<double(double)> func, double lowerBound, do
 
 	return ((upperBound - lowerBound) * result) / n;
 }
+
+
+
 
 
 
