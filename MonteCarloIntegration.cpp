@@ -15,9 +15,6 @@
 // 6. Multiply the average by the volume of the domain.
 
 
-
-
-
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -46,13 +43,13 @@ double static exampleFunction (double x)
 		return x * x;
 	}
 
-
+// Generate Random Numbers
 vector<double> generateRandomNumbers(int n, int lowerBound, int upperBound) {
 	vector<double> randomNumbers;
 	random_device rd;
 	mt19937 gen(rd());
 	uniform_real_distribution<> dis(lowerBound, upperBound);
-
+	//normal_distribution<> dis(mean, stddev);
 	for (int i = 0; i < n; ++i) {
 		randomNumbers.push_back(dis(gen));
 	}
@@ -60,6 +57,7 @@ vector<double> generateRandomNumbers(int n, int lowerBound, int upperBound) {
 	return randomNumbers;
 }
 
+// Monte Carlo Integration using process described above
 double MonteCarloIntegrator(function<double(double)> func, double lowerBound, double upperBound, int n) {
 
 	vector<double> randPoints = generateRandomNumbers(n, lowerBound, upperBound);
@@ -73,14 +71,35 @@ double MonteCarloIntegrator(function<double(double)> func, double lowerBound, do
 }
 
 
+// Trapezoidal Integration
+double TrapezoidalIntegrator(function<double(double)> func, double lowerBound, double upperBound, int n) {
+	
+	double h = (upperBound - lowerBound) / n;
+	double f_a = func(lowerBound);
+	double f_b = func(upperBound);
+	double result = 0.0;
+
+	// Integral = h/2 * (f(a) + 2*sum(f(xi)) + f(b))
+
+	for (int i = 0; i < n - 1; ++i) {
+		
+		double x_i = lowerBound + i * h;
+		result += func(x_i);
+	}
+
+	return (h / 2) * (f_a + (2 * result) + f_b);
+
+}
 
 
 
 int main() {
 	function<double(double)> func = exampleFunction;
-	double result = MonteCarloIntegrator(func, a, b, 10000);
+	double integrationresult = MonteCarloIntegrator(func, a, b, 10000);
+	double integrationresult2 = TrapezoidalIntegrator(func, a, b, 10000);
 
-	cout << "Monte Carlo Integration Result: " << result << end;
+	cout << "Monte Carlo Integration Result: " << integrationresult << "." << endl;
+	cout << "Trapezoidal Integration Result: " << integrationresult2 << "." << endl;
 
 	return 0;
 }

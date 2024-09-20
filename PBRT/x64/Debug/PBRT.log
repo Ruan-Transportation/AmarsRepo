@@ -1,0 +1,4 @@
+﻿  MonteCarloIntegration.cpp
+C:\Users\asrivast\source\repos\AmarsRepo\MonteCarloIntegration.cpp(68,67): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\asrivast\source\repos\AmarsRepo\MonteCarloIntegration.cpp(68,55): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  PBRT.vcxproj -> C:\Users\asrivast\source\repos\AmarsRepo\x64\Debug\PBRT.exe
