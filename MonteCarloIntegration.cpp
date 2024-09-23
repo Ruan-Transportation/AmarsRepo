@@ -93,13 +93,13 @@ double TrapezoidalIntegrator(function<double(double)> func, double lowerBound, d
 
 
 
-int main() {
-	function<double(double)> func = exampleFunction;
-	double integrationresult = MonteCarloIntegrator(func, a, b, 10000);
-	double integrationresult2 = TrapezoidalIntegrator(func, a, b, 10000);
-
-	cout << "Monte Carlo Integration Result: " << integrationresult << "." << endl;
-	cout << "Trapezoidal Integration Result: " << integrationresult2 << "." << endl;
-
-	return 0;
-}
+//int main() {
+//	function<double(double)> func = exampleFunction;
+//	double integrationresult = MonteCarloIntegrator(func, a, b, 10000);
+//	double integrationresult2 = TrapezoidalIntegrator(func, a, b, 10000);
+//
+//	cout << "Monte Carlo Integration Result: " << integrationresult << "." << endl;
+//	cout << "Trapezoidal Integration Result: " << integrationresult2 << "." << endl;
+//
+//	return 0;
+//}
