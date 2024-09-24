@@ -8,11 +8,33 @@
 #include <cmath>
 #include <limits>
 
-// Define M_PI if not defined
-#ifndef M_PI
-#define M_PI 3.14159265358979323846;
-#endif
+// Define a 2d Tuple Template
 
+template <template <typename> class Child, typename T>
+class Tuple2 {
+public:
+	static const int nDimensions = 2;
+	Tuple2() = default;
+	Tuple2(T x, T y) : x(x), y(y) {}
+	bool HasNaN() const { return std::isnan(x) || std::isnan(y); }
+	T operator[](int i) const {
+		switch (i) {
+		case 0: return x;
+		case 1: return y;
+		}
+		T& operator[](int i) {
+			switch (i) {
+			case 0: return x;
+			case 1: return y;
+			}
+		}
+		template <typename U>
+		auto operator+(Child<U> c) const->Child<decltype(T{} + U{}) > {
+			return (x + c.x, y + c.y);
+		}
+
+	}
+};
 
 
 // Define a 3d Tuple template
@@ -27,22 +49,23 @@ class Tuple3 {
 		case 1: return y;
 		case 2: return z;
 		}
-		T& operator[](int i) {
-			switch (i) {
-			case 0: return x;
-			case 1: return y;
-			case 2: return z;
-			}
+	}
+	T& operator[](int i) {
+		switch (i) {
+		case 0: return x;
+		case 1: return y;
+		case 2: return z;
 		}
-		template <typename U>
-		auto operator+(Child<U> c) const->Child<decltype(T{} + U{}) > {
-			return (x + c.x, y + c.y, z + c.z);
-		}
-		static const int nDimensions = 3;
-	};
+	}
+	template <typename U>
+	auto operator+(Child<U> c) const->Child<decltype(T{} + U{}) > {
+		return (x + c.x, y + c.y, z + c.z);
+	}
+	static const int nDimensions = 3;
+};
 
 
-// Define a simple vector class (Used github copilot: note a bit cleaner code here).
+// Define a simple 3d vector class (Used github copilot: note a bit cleaner code here).
 
 struct Vec3 {
 	float x, y, z;
@@ -61,7 +84,45 @@ struct Vec3 {
 	Vec3 normalize() const { return *this / length(); }
 };
 
+// Define a simple 3d point class
 
+template <typename T>
+class Point3 : public Tuple3<Point3, T> {
+public:
+	Point3() : Tuple3<T>(0, 0, 0) {}
+	Point3(T x, T y, T z) : Tuple3<T>(x, y, z) {}
+};
+
+// Define a ray class
+
+class Ray {
+public:
+	bool HasNan() const { return (o.HasNaN() || d.HasNaN()); }
+	std::string ToString() const;
+	Point3<float> o;
+	Vec3 d;
+	float tMax;
+	float time;
+};
+
+// Define a bounding box class
+
+class BoundingBox
+{
+public:
+	BoundingBox() {
+		float minNum = std::numeric_limits<float>::lowest();
+		float maxNum = std::numeric_limits<float>::max();
+		pMin = Point3<float>(maxNum, maxNum, maxNum);
+		pMax = Point3<float>(minNum, minNum, minNum);
+	}
+	BoundingBox(const Point3<float>& p) : pMin(p), pMax(p) {}
+	BoundingBox(const Point3<float>& p1, const Point3<float>& p2) {
+		pMin = Point3<float>(std::min(p1.x, p2.x), std::min(p1.y, p2.y), std::min(p1.z, p2.z));
+		pMax = Point3<float>(std::max(p1.x, p2.x), std::max(p1.y, p2.y), std::max(p1.z, p2.z));
+	}
+	Point3<float> pMin, pMax;
+};
 
 int main() {
 	return 1;
