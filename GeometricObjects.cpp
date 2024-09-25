@@ -107,23 +107,43 @@ public:
 
 // Define a bounding box class
 
-class BoundingBox
-{
-public:
-	BoundingBox() {
-		float minNum = std::numeric_limits<float>::lowest();
-		float maxNum = std::numeric_limits<float>::max();
-		pMin = Point3<float>(maxNum, maxNum, maxNum);
-		pMax = Point3<float>(minNum, minNum, minNum);
-	}
-	BoundingBox(const Point3<float>& p) : pMin(p), pMax(p) {}
-	BoundingBox(const Point3<float>& p1, const Point3<float>& p2) {
-		pMin = Point3<float>(std::min(p1.x, p2.x), std::min(p1.y, p2.y), std::min(p1.z, p2.z));
-		pMax = Point3<float>(std::max(p1.x, p2.x), std::max(p1.y, p2.y), std::max(p1.z, p2.z));
-	}
-	Point3<float> pMin, pMax;
-};
+//Bounds2 Definition - 2d Bounding Class
 
-int main() {
-	return 1;
-			}
+template <typename T>
+class Bounds2 {
+public:
+	Bounds2() {
+		T minNum = std::numeric_limits<T>::lowest();
+		T maxNum = std::numeric_limits<T>::max();
+		pMin = Point2<T>(maxNum, maxNum);
+		pMax = Point2<T>(minNum, minNum);
+	}
+	explicit Bounds2(const Point2<T>& p) : pMin(p), pMax(p) {}
+	template <typename U>
+	Bounds2(const Bounds2<U>& b) {
+		if (b.IsEmpty())
+			*this = Bounds2<T>();
+		else {
+			pMin = Point2<T>(b.pMin);
+			pMax = Point2<T>(b.pMax);
+		}
+	}
+	Vector2<T> Diagonal() const { return pMax - pMin; }
+	T Area() const {
+		Vector2<T> d = Diagonal();
+		return d.x * d.y;
+	}
+	bool IsEmpty() const {
+		return (pMin.x >= pMax.x || pMin.y >= pMax.y);
+	}
+
+	bool IsDegenerate() const { return pMin.x > pMax.x || pMin.y > pMax.y; }
+
+	int MaxDimension() const {
+		Vector2<T> diag = Diagonal();
+		if (diag.x > diag.y)
+			return 0;
+		else
+			return 1;
+	}
+};
