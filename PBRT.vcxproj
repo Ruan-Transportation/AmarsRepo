@@ -119,6 +119,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Irradiance_Exercises.cpp" />
     <ClCompile Include="MonteCarloIntegration.cpp" />
     <ClCompile Include="SimpleRender.cpp" />
   </ItemGroup>
