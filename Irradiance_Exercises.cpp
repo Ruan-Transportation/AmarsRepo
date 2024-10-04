@@ -38,10 +38,9 @@ using namespace std;
 // d_omega = r/(r^2 + h^2) * h * d_r * d_theta
 // The irradiance at the point is the integral of the radiance over the solid angle subtended by the disk.
 
-double static CalculateIrradiance(double rad, double dist)
+double static CalculateIrradiance(double rad, double phi)
 {
-	double d_I = (rad / (pow(pow(rad,2) + pow(dist,2),(5/2)))) * dist;
-	return d_I;
+	return L * h * rad / pow((rad * rad + h * h), 1.5);
 }
 
 vector<double> generateRandomNumbers(int n, int lowerBound, int upperBound) {
@@ -57,22 +56,37 @@ vector<double> generateRandomNumbers(int n, int lowerBound, int upperBound) {
 	return randomNumbers;
 }
 
-double MonteCarloIntegrator(function<double(double, double)> func, double lowerBound, double upperBound, int n) {
+double MonteCarloIntegrator(function<double(double, double)> func, vector<double> firstRandom, vector<double> secondRandom, int n) {
 
-	vector<double> randPoints = generateRandomNumbers(n, lowerBound, upperBound);
 	double result = 0.0;
-	double constant = h;
 
-	for (double num : randPoints) {
-		result += func(num, constant);
+	for (int i = 0; i < firstRandom.size(); ++i) {
+		result += func(firstRandom[i], secondRandom[i]);
 	}
 
-	return ((upperBound - lowerBound) * result) / n;
+	return ((2*M_PI) * result) / n;
 }
 
-int main() {}
+int main() {
+	double firstLower = 0;
+	double firstUpper = 1;
+
+	double secondLower = 0;
+	double secondUpper = 2 * M_PI;
+
+	int n = 1000000;
+
+	vector<double> radRandoms = generateRandomNumbers(n, firstLower, firstUpper);
+	vector<double> phiRandoms = generateRandomNumbers(n, secondLower, secondUpper);
 
 
+
+	double result1 = MonteCarloIntegrator(CalculateIrradiance, radRandoms, phiRandoms, n);
+
+	cout << "The irradiance at the point due to a unit-radius disk h units directly above its normal with constant outgoing radiance of 10 W/m^2 sr is: " << result1 << endl;
+
+	return 0;
 
 
 }
+
