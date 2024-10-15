@@ -1,6 +1,2 @@
-﻿  Irradiance_Exercises.cpp
-C:\Users\asrivast\source\repos\AmarsRepo\Irradiance_Exercises.cpp(79,67): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\asrivast\source\repos\AmarsRepo\Irradiance_Exercises.cpp(79,55): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\asrivast\source\repos\AmarsRepo\Irradiance_Exercises.cpp(80,68): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\asrivast\source\repos\AmarsRepo\Irradiance_Exercises.cpp(80,55): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-  PBRT.vcxproj -> C:\Users\asrivast\source\repos\AmarsRepo\x64\Debug\PBRT.exe
+﻿MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+C:\Users\asrivast\source\repos\AmarsRepo\x64\Debug\PBRT.exe : fatal error LNK1120: 1 unresolved externals
